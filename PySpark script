@@ -1,0 +1,39 @@
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import col, avg, count, max, min
+
+# Initialize Spark session
+spark = SparkSession.builder \
+    .appName("Big Data Analysis Example") \
+    .getOrCreate()
+
+# Load large dataset (CSV as an example)
+df = spark.read.csv("large_dataset.csv", header=True, inferSchema=True)
+
+# Show schema to understand the structure
+df.printSchema()
+
+# Basic Exploration
+print("Total records:", df.count())
+print("Columns:", df.columns)
+
+# Data Cleaning: Removing rows with missing values
+df_cleaned = df.dropna()
+
+# Summary statistics
+summary = df_cleaned.describe().show()
+
+# Aggregations: For example, calculating average, min, max, and count
+aggregation = df_cleaned.groupBy("column_name").agg(
+    avg("numeric_column").alias("average_value"),
+    min("numeric_column").alias("min_value"),
+    max("numeric_column").alias("max_value"),
+    count("*").alias("count")
+)
+
+aggregation.show()
+
+# Save the processed data to a new file (parquet format)
+df_cleaned.write.parquet("processed_data.parquet")
+
+# Stop the Spark session
+spark.stop()
