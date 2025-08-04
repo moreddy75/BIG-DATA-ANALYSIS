@@ -1,0 +1,38 @@
+import dask.dataframe as dd
+from dask.distributed import Client
+
+# Start a Dask client to monitor the progress of tasks
+client = Client()
+
+# Load large dataset (CSV as an example)
+df = dd.read_csv('large_dataset.csv')
+
+# Show schema to understand the structure
+print(df.head())
+
+# Data Cleaning: Removing rows with missing values
+df_cleaned = df.dropna()
+
+# Basic Exploration
+print(f"Total records: {df_cleaned.shape[0].compute()}")
+print(f"Columns: {df.columns.tolist()}")
+
+# Summary statistics
+summary = df_cleaned.describe().compute()
+print(summary)
+
+# Aggregations: For example, calculating average, min, max, and count
+aggregation = df_cleaned.groupby('column_name').agg(
+    avg_value=('numeric_column', 'mean'),
+    min_value=('numeric_column', 'min'),
+    max_value=('numeric_column', 'max'),
+    count=('numeric_column', 'count')
+)
+
+print(aggregation.compute())
+
+# Save the processed data to a new file (Parquet format)
+df_cleaned.to_parquet('processed_data.parquet')
+
+# Close the Dask client
+client.close()
