@@ -62,5 +62,4 @@ Dask will be used to showcase how large datasets can be processed using Python's
   # PySpark out put
    <img width="1920" height="1046" alt="Image" src="https://github.com/user-attachments/assets/75092df7-bb18-403a-ac80-3e2f70553a3a" />
   # Dask
-  
-    <img width="723" height="445" alt="Image" src="https://github.com/user-attachments/assets/38172b1e-0881-4ca4-925d-70a398a609dd" />
+  <img width="723" height="445" alt="Image" src="https://github.com/user-attachments/assets/38172b1e-0881-4ca4-925d-70a398a609dd" />
